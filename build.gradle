@@ -103,5 +103,6 @@ assets {
 grails {
     plugins {
         compile project(':plugins:myPlugin')
+        compile project(':plugins:logical-delete')
     }
 }
