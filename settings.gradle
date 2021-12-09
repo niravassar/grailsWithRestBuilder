@@ -1,1 +1,2 @@
 include ':plugins:myPlugin'
+include ':plugins:logical-delete'

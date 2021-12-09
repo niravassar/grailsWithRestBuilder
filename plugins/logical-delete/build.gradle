@@ -1,0 +1,112 @@
+import com.biovia.labservices.grails.config.Lib
+
+buildscript {
+    repositories {
+        maven { url 'http://fnd-chardonnay.dsone.3ds.com:8081/nexus/content/groups/public' }
+    }
+    dependencies {
+        classpath Lib.grailsGradlePlugin
+        classpath Lib.grailsPluginsViewsGradle
+        classpath Lib.grailsPluginsHibernate5
+    }
+}
+
+version '0.1' //TODO RJD
+group 'com.biovia.labservices.grails.plugins'
+
+apply plugin:'eclipse'
+apply plugin:'idea'
+apply plugin:'org.grails.grails-plugin'
+apply plugin:'org.grails.grails-plugin-publish'
+apply plugin:'org.grails.plugins.views-json'
+
+repositories {
+    maven { url 'http://fnd-chardonnay.dsone.3ds.com:8081/nexus/content/groups/public' }
+}
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+}
+
+dependencies {
+    developmentOnly(Lib.springBootDevTools)
+    compile Lib.sprintBootStarterLogging
+    compile Lib.springBootAutoconfigure
+    compile Lib.grailsCore
+    compile Lib.springBootStarterActuator
+    compile Lib.springBootStarterTomcat
+    compile Lib.grailsPluginUrlMappings
+    compile Lib.grailsPluginRest
+    compile Lib.grailsPluginCodecs
+    compile Lib.grailsPluginInterceptors
+    compile Lib.grailsPluginServices
+    compile Lib.grailsPluginDatasource
+    compile Lib.grailsPluginDatabinding
+    compile Lib.grailsWebBoot
+    compile Lib.grailsLogging
+    compile Lib.grailsPluginsCache
+    compile Lib.grailsPluginsAsync
+    compile Lib.grailsPluginsHibernate5
+    compile Lib.hibernateCore
+    compile Lib.grailsPluginsViewsJson
+    compile Lib.grailsPluginsViewsJsonTemplates
+    compileOnly Lib.micronautInjectGroovy
+    console Lib.grailsConsole
+    profile Lib.grailsProfilesRestApiPlugin
+    provided Lib.springBootStarterTomcat
+    runtime Lib.glassfishElImpl
+    runtime Lib.h2Database
+    runtime Lib.apacheTomcatJdbc
+    runtime Lib.javaxJaxbApi
+    testCompile Lib.micronautInjectGroovy
+    testCompile Lib.grailsGormTestingSupport
+    testCompile Lib.mockitoCore
+    testCompile Lib.micronautHttpClient
+    testCompile Lib.grailsWebTestingSupport
+    testCompile Lib.grailsViewsJsonTestingSupport
+    testCompile Lib.hibernateValidator
+
+    //Dassault
+    //compile 'org.grails.plugins:hibernate4:4.3.10'
+}
+
+test {
+    exclude '**/*'
+}
+
+bootRun {
+    ignoreExitValue true
+    jvmArgs(
+        '-Dspring.output.ansi.enabled=always', 
+        '-noverify', 
+        '-XX:TieredStopAtLevel=1',
+        '-Xmx1024m')
+    sourceResources sourceSets.main
+    String springProfilesActive = 'spring.profiles.active'
+    systemProperty springProfilesActive, System.getProperty(springProfilesActive)
+}
+
+tasks.withType(GroovyCompile) {
+    configure(groovyOptions) {
+        forkOptions.jvmArgs = ['-Xmx1024m']
+    }
+}
+
+// enable if you wish to package this plugin as a standalone application
+bootJar.enabled = false
+grailsPublish {
+    // TODO: Provide values here
+    user = 'user'
+    key = 'key'
+    githubSlug = 'foo/bar'
+    license {
+        name = 'Apache-2.0'
+    }
+    title = 'My Plugin'
+    desc = 'Full plugin description'
+    developers = [johndoe:'John Doe']
+}
+
