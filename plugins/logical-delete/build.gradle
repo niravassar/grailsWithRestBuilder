@@ -2,7 +2,7 @@ import com.biovia.labservices.grails.config.Lib
 
 buildscript {
     repositories {
-        maven { url 'http://fnd-chardonnay.dsone.3ds.com:8081/nexus/content/groups/public' }
+        maven { url "https://repo.grails.org/grails/core" }
     }
     dependencies {
         classpath Lib.grailsGradlePlugin
@@ -21,7 +21,7 @@ apply plugin:'org.grails.grails-plugin-publish'
 apply plugin:'org.grails.plugins.views-json'
 
 repositories {
-    maven { url 'http://fnd-chardonnay.dsone.3ds.com:8081/nexus/content/groups/public' }
+    maven { url "https://repo.grails.org/grails/core" }
 }
 
 configurations {
