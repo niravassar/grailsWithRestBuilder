@@ -1,5 +1,6 @@
 package grailswithrestbuilder
 
+import demo.Book
 import grails.gorm.transactions.Rollback
 import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
@@ -21,6 +22,21 @@ class BookControllerIntSpec extends Specification {
         then: "check the logging events"
         resp.status == 200
         resp.responseEntity.body.toString().contains("Nirav")
+    }
+
+    void "test logical-delete"() {
+        when:
+        Book niravBook = Book.findByTitle('NiravBook')
+        niravBook.delete(something: 1)
+        List<Book> books = Book.list()
+        def whereQuery = Book.where {
+            title == "NiravBook"
+        }.list()
+
+        then:
+        // these fail bc the query is not considering logically deleted items.
+        assert books.size() == 1
+        assert whereQuery.size() == 0
     }
 
 }

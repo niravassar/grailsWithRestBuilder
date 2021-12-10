@@ -14,6 +14,19 @@ class BookLogicalDeleteSpec extends Specification implements DomainUnitTest<Book
     }
 
     @Rollback
+    void 'debugging test'() {
+        when:
+        assert Book.count() == 2
+        Book niravBook = Book.findByTitle('NiravBook')
+        niravBook.delete(something: 1)
+        List<Book> books = Book.list()
+
+        then:
+        Book.count() == 2
+    }
+
+
+    @Rollback
     void 'test book logical delete - count'() {
         when:
         assert Book.count() == 2

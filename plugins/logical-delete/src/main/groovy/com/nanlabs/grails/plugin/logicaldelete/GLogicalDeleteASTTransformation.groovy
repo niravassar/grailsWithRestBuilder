@@ -181,7 +181,7 @@ class GLogicalDeleteASTTransformation {
     // TODO: Consider changing this to a global AST transform so that LogicalDeleteDomainClassEnhancer.enhanceWithOnDeleteSupport() will no longer be needed.
     static void overrideDeleteMethod(ClassNode classNode) {
         overrideDeleteMethodMapArgs(classNode)
-        overrideDeleteMethodNoArgs(classNode)
+        //overrideDeleteMethodNoArgs(classNode)
     }
 
     private static void overrideDeleteMethodMapArgs(ClassNode classNode) {
@@ -189,18 +189,24 @@ class GLogicalDeleteASTTransformation {
         deleteMatchingMethods(classNode, 'delete', 1)
 
         List<ASTNode> methodBody = new AstBuilder().buildFromCode {
-            if (this.respondsTo('onDelete')) {
-                onDelete()
-            }
-
-            if (com.nanlabs.grails.plugin.logicaldelete.LogicalDeleteDomainClass.isAssignableFrom(this.getClass())) {
-                // Logically delete.
-                deleted = id as String
-                save(args)
-            } else {
-                // Delegate to GORM's real delete method.
-                currentGormInstanceApi().delete(this)
-            }
+////            if (this.respondsTo('onDelete')) {
+////                onDelete()
+////            }
+//
+//            if (com.nanlabs.grails.plugin.logicaldelete.LogicalDeleteDomainClass.isAssignableFrom(this.getClass())) {
+//                // Logically delete.
+////                deleted = "NIRAV" as String
+////                save()
+//            } else {
+//                // Delegate to GORM's real delete method.
+//                //currentGormInstanceApi().delete(this)
+//
+//            }
+           // if (LogicalDeleteDomainClass.isAssignableFrom(this.getClass())) {
+            deleted = "nirav" as String
+            println "*** in delete() method********: args:" + args + ", deleted = " + this.deleted
+            save()
+            //}
 
             return
         }
