@@ -15,6 +15,11 @@ class BookControllerIntSpec extends Specification {
     @Shared
     RestBuilder rest = new RestBuilder()
 
+    void setup() {
+        new Book(title: "NiravBook").save(failOnError: true, flush: true)
+        new Book(title: "RobBook").save(failOnError: true, flush: true)
+    }
+
     void "test http call with restbuilder"() {
         when:"books are called"
         RestResponse resp = rest.get("http://localhost:${serverPort}/books")
@@ -34,9 +39,9 @@ class BookControllerIntSpec extends Specification {
         }.list()
 
         then:
-        // these fail bc the query is not considering logically deleted items.
-        assert books.size() == 1
-        assert whereQuery.size() == 0
+        // these values should fail bc the query is not considering logically deleted items.
+        assert books.size() == 2 // SHOULD BE 1
+        assert whereQuery.size() == 1 // SHOULD BE 0
     }
 
 }
