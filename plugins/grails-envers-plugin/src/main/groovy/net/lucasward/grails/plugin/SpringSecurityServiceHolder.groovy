@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package demo
+package net.lucasward.grails.plugin
 
-import org.hibernate.envers.Audited
+public class SpringSecurityServiceHolder {
 
-@Audited
-class Address {
+    public static def springSecurityService
 
-    String city
-    String zip
+    public setSpringSecurityService(def springSecurityService) {
+        this.springSecurityService = springSecurityService
+    }
 
 }

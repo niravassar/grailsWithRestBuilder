@@ -1,7 +1,7 @@
 package grailswithrestbuilder
 
-import demo.Address
 import grails.gorm.transactions.Transactional
+import net.lucasward.grails.plugin.Address
 import org.springframework.http.HttpStatus
 
 @Transactional

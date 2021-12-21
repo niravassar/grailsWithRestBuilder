@@ -1,7 +1,7 @@
 package grailswithrestbuilder
 
-import demo.Address
 import demo.Book
+import net.lucasward.grails.plugin.Address
 
 class BootStrap {
 
