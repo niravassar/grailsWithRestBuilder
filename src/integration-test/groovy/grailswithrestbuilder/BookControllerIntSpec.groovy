@@ -35,7 +35,7 @@ class BookControllerIntSpec extends Specification {
         niravBook.delete(something: 1)
         List<Book> books = Book.list()
         def whereQuery = Book.where {
-            title == "NiravBook"
+            title == "NiravBook" || title == "RobBook"
         }.list()
 
         then:

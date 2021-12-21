@@ -203,9 +203,11 @@ class GLogicalDeleteASTTransformation {
 //
 //            }
            // if (LogicalDeleteDomainClass.isAssignableFrom(this.getClass())) {
-            deleted = "nirav" as String
-            println "*** in delete() method********: args:" + args + ", deleted = " + this.deleted
-            save()
+            this.deleted = "nirav" as String
+            this.markDirty('deleted')
+            println " ******** dump: " + this.dump()
+
+            save(args)
             //}
 
             return

@@ -1,2 +1,3 @@
 include ':plugins:myPlugin'
 include ':plugins:logical-delete'
+include ':plugins:grails-envers-plugin'

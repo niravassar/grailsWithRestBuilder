@@ -27,27 +27,31 @@ class LogicalDeleteGrailsPlugin extends Plugin {
     def issueManagement = [system: 'GITHUB', url: 'https://github.com/nanlabs/logical-delete/issues']
     def scm = [url: 'https://github.com/nanlabs/logical-delete']
 
-    def doWithSpring = {
+    Closure doWithSpring() {
         def filterName = 'logicDeleteHibernateFilter'
         def defaultCondition = "'$NOT_DELETED_COLUMN_VALUE' = deleted"
         def paramTypes = [:]
 
-        logicDeleteHibernateFilter(FilterDefinition, filterName, defaultCondition, paramTypes)
+        def beans = {
+            logicDeleteHibernateFilter(FilterDefinition, filterName, defaultCondition, paramTypes)
 
-        deleteHibernateFilterConfigurator(DeleteHibernateFilterConfigurator) {
-            deleteFilterDefinition = ref('logicDeleteHibernateFilter')
+            deleteHibernateFilterConfigurator(DeleteHibernateFilterConfigurator) {
+                deleteFilterDefinition = ref('logicDeleteHibernateFilter')
+            }
         }
+
+        return beans
     }
 
-    def doWithDynamicMethods = { ctx ->
-        LogicalDeleteDomainClassEnhancer.enhance(application.domainClasses)
+    void doWithDynamicMethods() {
+        LogicalDeleteDomainClassEnhancer.enhance(grailsApplication.domainClasses)
 
-        application.controllerClasses.each {
-            LogicalDeleteDomainClassEnhancer.addDisableFilterOption(it.clazz, ctx)
+        grailsApplication.controllerClasses.each {
+            LogicalDeleteDomainClassEnhancer.addDisableFilterOption(it.clazz, applicationContext)
         }
 
-        application.serviceClasses.each {
-            LogicalDeleteDomainClassEnhancer.addDisableFilterOption(it.clazz, ctx)
+        grailsApplication.serviceClasses.each {
+            LogicalDeleteDomainClassEnhancer.addDisableFilterOption(it.clazz, applicationContext)
         }
     }
 }
