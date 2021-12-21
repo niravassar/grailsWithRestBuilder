@@ -1,7 +1,7 @@
 package grailswithrestbuilder
 
+import demo.Address
 import demo.Book
-import grails.gorm.transactions.Transactional
 
 class BootStrap {
 
@@ -9,6 +9,7 @@ class BootStrap {
         Book.withTransaction {
             new Book(title: "NiravBook").save(failOnError: true, flush: true)
             new Book(title: "RobBook").save(failOnError: true, flush: true)
+            new Address(city: "New York", zip: "76051").save(failOnError: true, flush: true)
         }
 
     }
