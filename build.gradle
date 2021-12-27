@@ -66,7 +66,7 @@ dependencies {
     testCompile "org.mockito:mockito-core"
     testCompile "org.grails:grails-web-testing-support"
     testCompile "org.grails.plugins:geb"
-    testCompile "org.grails:grails-datastore-rest-client:6.1.12.BUILD-SNAPSHOT"
+    testCompile "org.grails:grails-datastore-rest-client:6.1.12.RELEASE"
     testCompile "io.micronaut:micronaut-http-client"
 }
 
