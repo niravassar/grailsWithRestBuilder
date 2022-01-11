@@ -20,7 +20,6 @@ import org.hibernate.envers.AuditTable
 import org.hibernate.envers.Audited
 
 @Audited
-@AuditTable("AUD_ADDRESS")
 class Address {
 
     String city
