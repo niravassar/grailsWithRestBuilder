@@ -6,6 +6,7 @@ import grails.gorm.transactions.Rollback
 import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
 import grails.testing.mixin.integration.Integration
+import org.grails.datastore.mapping.model.PersistentEntity
 import org.grails.orm.hibernate.cfg.GrailsDomainBinder
 import org.grails.orm.hibernate.cfg.Mapping
 import spock.lang.Shared
@@ -51,11 +52,13 @@ class BookControllerIntSpec extends Specification {
 
     void "test grails GrailsDomainBinder"() {
         when:
-        Mapping mapping = GrailsDomainBinder.getMapping(Book)
+        PersistentEntity bookEntity = grailsApplication.mappingContext.getPersistentEntity("demo.Book")
+        Mapping mappingFromPersistenEntity = GrailsDomainBinder.getMapping(bookEntity)
+        Mapping mappingFromClazz = GrailsDomainBinder.getMapping(Book)
 
         then:
-        mapping.getTableName() == "nirav_book"
-
+        mappingFromClazz.getTableName() == "nirav_book"
+        mappingFromPersistenEntity.getTableName() == "nirav_book"
     }
 
 }
