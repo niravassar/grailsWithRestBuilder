@@ -11,4 +11,8 @@ class Book {
     static constraints = {
         title blank:false, unique: true
     }
+
+    static mapping = {
+        table 'nirav_book'
+    }
 }
