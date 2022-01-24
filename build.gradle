@@ -29,7 +29,10 @@ configurations {
     runtimeClasspath {
         extendsFrom developmentOnly
     }
+    functionalTestImplementation.extendsFrom testImplementation
+    functionalTestRuntime.extendsFrom testRuntime
 }
+
 
 dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -105,4 +108,18 @@ grails {
         compile project(':plugins:logical-delete')
         compile project(':plugins:grails-envers-plugin')
     }
+}
+
+sourceSets {
+    functionalTest {
+        groovy.srcDir "$projectDir/src/functional-test/groovy"
+        resources.srcDir "$projectDir/src/functional-test/resources"
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+    }
+}
+
+task functionalTest(type: Test) {
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
 }
